@@ -24,6 +24,7 @@
   "author": "Jonathon Choo",
   "license": "ISC",
   "dependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "lodash": "^4.6.1"
   }
 }

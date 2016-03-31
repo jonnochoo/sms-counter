@@ -7,23 +7,26 @@ module.exports = React.createClass({
   getInitialState: function() {
     return { text: '', fields: [] };
   },
-  handleChange: function() {
-    var fields = _.chain(_.toArray(this.refs))
-      .map((x, index) => { return { type: x.type, value: x.value, name: _.keys(this.refs)[index] } })
-      .reject(x => x.type === 'textarea')
-      .value();
-    console.log(fields);
-    var state = template(this.refs.textarea.value, fields);
+  update: function() {
+    var state = template(this.refs.textarea.value, this.state.fields);
     this.setState(state);
+  },
+  handleInputChange: function(e) {
+    var field = _.find(this.state.fields, item => {
+      return item.name === e.target.getAttribute('name');
+    });
+    field.value = e.target.value;
+    this.update();
   },
   render: function() {
     return (
       <div>
         <code>{this.state.text}</code>
-        <textarea onChange={this.handleChange} ref="textarea" />
-        {this.state.fields.map((item, index) => {
-          return <div key={index}>
-            <label>{item.name}</label> <input key={index} type="text" ref={item.name} defaultValue={item.value} onChange={this.handleChange} />
+        <textarea onChange={this.update} ref="textarea" />
+        {this.state.fields.map((item) => {
+          return <div key={item.name}>
+            <label>{item.name}</label> <input key={item.name} type="text" name={item.name} ref={item.name} 
+              defaultValue={item.value} onChange={this.handleInputChange} />
           </div>
         })}
         <SmsCharacterCounter text={this.state.text} />
