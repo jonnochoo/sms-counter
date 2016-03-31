@@ -4,7 +4,7 @@ var SmsCharacterCounter =  React.createClass({
   componentWillReceiveProps: function(nextProps) {
     var text = nextProps.text;
     var characterCount = text.length;
-    var credits = [160, 306].findIndex(function (item) {
+    var credits = [160, 306, 459, 612].findIndex(function (item) {
       return characterCount <= item; 
     }) + 1;
     this.setState({
