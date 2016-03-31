@@ -34223,7 +34223,8 @@ var SmsCharacterCounter = React.createClass({
         React.createElement(
           "div",
           { className: "box-label" },
-          "Credits"
+          React.createElement("i", { className: "fa fa-dollar" }),
+          " Credits"
         ),
         React.createElement(
           "div",
@@ -34252,17 +34253,13 @@ module.exports = React.createClass({
     return { text: '', fields: [] };
   },
   update: function update() {
-    console.log(this.state.fields);
-    console.log(this.refs.textarea.value);
     var state = template(this.refs.textarea.value, this.state.fields);
-    console.log(state);
     this.setState(state);
   },
   handleInputChange: function handleInputChange(e) {
     var field = _.find(this.state.fields, function (item) {
       return item.name === e.target.getAttribute('name');
     });
-    console.log(field);
     field.value = e.target.value;
     this.update();
   },
@@ -34271,28 +34268,36 @@ module.exports = React.createClass({
 
     return React.createElement(
       'div',
-      null,
+      { className: 'row' },
       React.createElement(
-        'code',
-        null,
-        this.state.text
+        'div',
+        { className: 'columns large-6' },
+        React.createElement('textarea', { rows: '4', onChange: this.update, ref: 'textarea' }),
+        this.state.fields.map(function (item) {
+          return React.createElement(
+            'div',
+            { key: item.name },
+            React.createElement(
+              'label',
+              null,
+              item.name
+            ),
+            ' ',
+            React.createElement('input', { key: item.name, type: 'text', name: item.name, ref: item.name,
+              defaultValue: item.value, onChange: _this.handleInputChange })
+          );
+        })
       ),
-      React.createElement('textarea', { onChange: this.update, ref: 'textarea' }),
-      this.state.fields.map(function (item) {
-        return React.createElement(
-          'div',
-          { key: item.name },
-          React.createElement(
-            'label',
-            null,
-            item.name
-          ),
-          ' ',
-          React.createElement('input', { key: item.name, type: 'text', name: item.name, ref: item.name,
-            defaultValue: item.value, onChange: _this.handleInputChange })
-        );
-      }),
-      React.createElement(SmsCharacterCounter, { text: this.state.text })
+      React.createElement(
+        'div',
+        { className: 'columns large-6' },
+        this.state.text.length > 0 ? React.createElement(
+          'p',
+          { className: 'wording' },
+          this.state.text
+        ) : null,
+        React.createElement(SmsCharacterCounter, { text: this.state.text })
+      )
     );
   }
 });

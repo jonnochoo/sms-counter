@@ -24,7 +24,7 @@ var SmsCharacterCounter =  React.createClass({
           <div className="box-value">{this.state.characterCount}</div>
         </div>
         <div className="box">
-          <div className="box-label">Credits</div>
+          <div className="box-label"><i className="fa fa-dollar" /> Credits</div>
           <div className="box-value">{this.state.credits}</div>
         </div>
       </div>

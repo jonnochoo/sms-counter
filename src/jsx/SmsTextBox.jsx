@@ -20,16 +20,20 @@ module.exports = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <code>{this.state.text}</code>
-        <textarea onChange={this.update} ref="textarea" />
-        {this.state.fields.map((item) => {
-          return <div key={item.name}>
-            <label>{item.name}</label> <input key={item.name} type="text" name={item.name} ref={item.name} 
-              defaultValue={item.value} onChange={this.handleInputChange} />
-          </div>
-        })}
+      <div className="row">
+        <div className="columns large-6">
+          <textarea rows="4" onChange={this.update} ref="textarea" />
+          {this.state.fields.map((item) => {
+            return <div key={item.name}>
+              <label>{item.name}</label> <input key={item.name} type="text" name={item.name} ref={item.name} 
+                defaultValue={item.value} onChange={this.handleInputChange} />
+            </div>
+          })}
+        </div>
+        <div className="columns large-6">
+        { this.state.text.length > 0 ? <p className="wording">{this.state.text}</p> : null }
         <SmsCharacterCounter text={this.state.text} />
+        </div>
       </div>
     );
   }

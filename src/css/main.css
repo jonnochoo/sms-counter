@@ -4,7 +4,13 @@
   border: 1px solid #EFEFEF;
   width: 150px;
   border-radius: 10px;
+  float: left;
+  margin-right: 20px;
 }
 .box-value {
   font-size: 40px;
+}
+.wording {
+  padding: 20px;
+  background-color: #EFEFEF;
 }
