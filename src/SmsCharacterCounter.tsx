@@ -1,6 +1,18 @@
 import { Component, createMemo } from 'solid-js'
 import { GSM7_CHARS } from './Gsm7Chars'
 import Box from './Box'
+import {
+    BadgeDollarSign,
+    CircleDollarSign,
+    DollarSignIcon,
+    FileText,
+    FileTextIcon,
+    Pilcrow,
+    Tally3,
+    Tally5,
+    Text,
+    TextIcon,
+} from 'lucide-solid'
 
 type SmsCharacterCounterType = {
     text: string
@@ -10,8 +22,21 @@ const SmsCharacterCounter: Component<SmsCharacterCounterType> = (props) => {
 
     const credits = createMemo(() => {
         const count = characterCount()
-        const index = [160, 306, 459, 612].findIndex((item) => count <= item)
-        return index + 1
+        if (count === 0) return 0
+
+        if (isGSM7()) {
+            // GSM7: 160 chars for 1 SMS, then 153 chars per additional SMS
+            if (count <= 160) return 1
+            return Math.ceil((count - 160) / 153) + 1
+        } else {
+            // Unicode: 70 chars for 1 SMS, then 67 chars per additional SMS
+            if (count <= 70) return 1
+            return Math.ceil((count - 70) / 67) + 1
+        }
+    })
+
+    const hasText = createMemo(() => {
+        return props.text.length > 0
     })
 
     const isGSM7 = createMemo(() => {
@@ -27,18 +52,38 @@ const SmsCharacterCounter: Component<SmsCharacterCounterType> = (props) => {
     return (
         <div>
             <div class="flex gap-4 mt-2">
-                <Box label="Character Count" value={characterCount} />
-                <Box label="Credits" value={credits} />
-                <div class="p-2 bg-[#292c3c] rounded  w-full">
-                    <div class="text-center font-bold">
-                        <i class="fa fa-dollar" /> Type
-                    </div>
-                    <div
-                        class={`text-4xl text-center font-bold ${isGSM7() ? 'text-green-500' : 'text-red-400'}`}
-                    >
-                        {isGSM7() ? 'GSM7' : 'Unicode'}
-                    </div>
-                </div>
+                <Box
+                    label="Character Count"
+                    value={characterCount}
+                    class={!hasText() ? 'text-gray-500' : 'text-white'}
+                    icon={Tally5}
+                />
+                <Box
+                    label="Credits"
+                    value={credits}
+                    class={
+                        !hasText()
+                            ? 'text-gray-500'
+                            : credits() === 1
+                              ? 'text-green-400'
+                              : credits() === 2
+                                ? 'text-yellow-400'
+                                : 'text-red-400'
+                    }
+                    icon={CircleDollarSign}
+                />
+                <Box
+                    label="Type"
+                    value={isGSM7() ? 'GSM7' : 'Unicode'}
+                    class={
+                        !hasText()
+                            ? 'text-gray-500'
+                            : isGSM7()
+                              ? 'text-green-400'
+                              : 'text-red-400'
+                    }
+                    icon={Pilcrow}
+                />
             </div>
         </div>
     )
