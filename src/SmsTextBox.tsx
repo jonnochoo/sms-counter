@@ -1,6 +1,6 @@
 import { createSignal, For, Show } from 'solid-js'
 import SmsCharacterCounter from './SmsCharacterCounter'
-import { onMount } from 'solid-js/types/server/reactive.js'
+import { onMount } from 'solid-js'
 
 export default function SmsTemplateComponent() {
     const [text, setText] = createSignal('')
@@ -11,6 +11,16 @@ export default function SmsTemplateComponent() {
         const state = template(textareaRef.value, fields())
         setText(state.text)
         setFields(state.fields)
+
+        // Update query string
+        const params = new URLSearchParams(window.location.search)
+        if (textareaRef.value) {
+            params.set('message', textareaRef.value)
+        } else {
+            params.delete('message')
+        }
+        const newUrl = `${window.location.pathname}?${params.toString()}`
+        window.history.replaceState({}, '', newUrl)
     }
 
     const handleInputChange = (e) => {
@@ -25,6 +35,15 @@ export default function SmsTemplateComponent() {
         update()
     }
 
+    onMount(() => {
+        const params = new URLSearchParams(window.location.search)
+        const templateParam = params.get('message')
+        if (templateParam && textareaRef) {
+            textareaRef.value = templateParam
+            update()
+        }
+    })
+
     return (
         <div class="flex gap-4">
             <div class="w-1/3">
@@ -32,7 +51,7 @@ export default function SmsTemplateComponent() {
                     Enter your SMS wording
                 </div>
                 <textarea
-                    rows="4"
+                    rows=""
                     onInput={update}
                     ref={textareaRef}
                     class="p-2 border border-gray-400 rounded-lg rounded-t-none w-full"
