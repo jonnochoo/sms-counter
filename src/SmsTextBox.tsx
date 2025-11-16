@@ -51,7 +51,7 @@ export default function SmsTemplateComponent() {
                     Enter your SMS wording
                 </div>
                 <textarea
-                    rows=""
+                    rows="5"
                     onInput={update}
                     ref={textareaRef}
                     class="p-2 border border-gray-400 rounded-lg rounded-t-none w-full"

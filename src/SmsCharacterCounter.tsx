@@ -3,6 +3,7 @@ import { GSM7_CHARS } from './Gsm7Chars'
 import Box from './Box'
 import {
     BadgeDollarSign,
+    Blocks,
     CircleDollarSign,
     DollarSignIcon,
     FileText,
@@ -59,7 +60,7 @@ const SmsCharacterCounter: Component<SmsCharacterCounterType> = (props) => {
                     icon={Tally5}
                 />
                 <Box
-                    label="Credits"
+                    label="Segments"
                     value={credits}
                     class={
                         !hasText()
@@ -70,11 +71,11 @@ const SmsCharacterCounter: Component<SmsCharacterCounterType> = (props) => {
                                 ? 'text-yellow-400'
                                 : 'text-red-400'
                     }
-                    icon={CircleDollarSign}
+                    icon={Blocks}
                 />
                 <Box
-                    label="Type"
-                    value={isGSM7() ? 'GSM7' : 'Unicode'}
+                    label="Encoding Used"
+                    value={isGSM7() ? 'GSM7' : 'UCS-2'}
                     class={
                         !hasText()
                             ? 'text-gray-500'
