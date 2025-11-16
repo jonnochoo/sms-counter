@@ -60,7 +60,7 @@ export default function SmsTemplateComponent() {
                                 type="text"
                                 name={item.name}
                                 value={item.value}
-                                onInput={handleInputChange}
+                                onBlur={handleInputChange}
                                 class="p-2 border border-gray-400 rounded-lg rounded-t-none w-full"
                             />
                         </div>
