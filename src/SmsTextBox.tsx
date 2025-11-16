@@ -25,13 +25,9 @@ export default function SmsTemplateComponent() {
 
     const handleInputChange = (e) => {
         const fieldName = e.target.getAttribute('name')
-        setFields((prevFields) =>
-            prevFields.map((item) =>
-                item.name === fieldName
-                    ? { ...item, value: e.target.value }
-                    : item
-            )
-        )
+        console.log(fieldName, fields(), e.target.value)
+        const newFields = fields().find((x) => x.name === fieldName)
+        newFields.value = e.target.value
         update()
     }
 
@@ -71,15 +67,17 @@ export default function SmsTemplateComponent() {
                     )}
                 </For>
             </div>
-            <div class="w-2/3">
+            <div class="w-1/3">
                 <Show
                     when={text().length > 0}
                     fallback={<div>No message has been entered yet..</div>}
                 >
-                    <div class="p-4 bg-[#292c3c] rounded w-full">
+                    <pre class="p-4 bg-[#292c3c] whitespace-pre-wrap overflow-hidden rounded-2xl border-2 border-slate-950">
                         <p class="wording">{text()}</p>
-                    </div>
+                    </pre>
                 </Show>
+            </div>
+            <div class="w-1/3">
                 <SmsCharacterCounter text={text()} />
             </div>
         </div>
@@ -112,7 +110,7 @@ const template = function (template, fields) {
 }
 const fieldDictionary = function (fieldName: string) {
     var values = {
-        date: 'Wednesday, 21st September 2016',
+        date: 'Wednesday, 21st September 2025',
         rego: 'TEST001',
         make: 'vehicle',
     }

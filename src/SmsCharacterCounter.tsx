@@ -52,7 +52,7 @@ const SmsCharacterCounter: Component<SmsCharacterCounterType> = (props) => {
 
     return (
         <div>
-            <div class="flex gap-4 mt-2">
+            <div class="flex gap-4 flex-col">
                 <Box
                     label="Character Count"
                     value={characterCount}
