@@ -28,11 +28,11 @@ const SmsCharacterCounter: Component<SmsCharacterCounterType> = (props) => {
         if (isGSM7()) {
             // GSM7: 160 chars for 1 SMS, then 153 chars per additional SMS
             if (count <= 160) return 1
-            return Math.ceil((count - 160) / 153) + 1
+            return Math.ceil((count) / 153)
         } else {
             // Unicode: 70 chars for 1 SMS, then 67 chars per additional SMS
             if (count <= 70) return 1
-            return Math.ceil((count - 70) / 67) + 1
+            return Math.ceil((count) / 67)
         }
     })
 
